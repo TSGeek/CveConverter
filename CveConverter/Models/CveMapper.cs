@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Runtime.Intrinsics.X86;
 
 namespace CveConverter.Models;
 
@@ -30,9 +31,14 @@ public class CveMapper
                 if (jsCve.Containers.Cna.Affected.Any(a => a.Versions != null))
                 {
                     var affectedVersionsList = new List<string>();
-                    affectedVersionsList = jsCve.Containers.Cna.Affected.SelectMany(a => a.Versions).Distinct().Where(v => v.Status == Status.Affected)
-                        .Select(v => v.Version).Distinct().ToList();   
-                    cve.AffectedVersions = string.Join("$", affectedVersionsList);
+                    
+                     var a1 = jsCve.Containers.Cna.Affected.Where(a => a.Versions != null).SelectMany(a => a.Versions).Distinct().Where(v => v.Status == Status.Affected).ToList();
+                     if (a1 != null)
+                     {
+                         var a2 = a1.Select(v => v.Version).Distinct().ToList();
+                         affectedVersionsList = a2;
+                         cve.AffectedVersions = string.Join("$", affectedVersionsList);
+                     }
                 }
             }
         }

@@ -174,7 +174,7 @@ namespace CveConverter.Models
         /// URL identifying a package collection (determines the meaning of packageName).
         /// </summary>
         [JsonProperty("collectionURL", NullValueHandling = NullValueHandling.Ignore)]
-        public Uri CollectionUrl { get; set; }
+        public String CollectionUrl { get; set; }
 
         /// <summary>
         /// Affected products defined by CPE. This is an array of CPE values (vulnerable and not), we
@@ -250,7 +250,7 @@ namespace CveConverter.Models
         /// hash version ranges.
         /// </summary>
         [JsonProperty("repo", NullValueHandling = NullValueHandling.Ignore)]
-        public Uri Repo { get; set; }
+        public String Repo { get; set; }
 
         /// <summary>
         /// Name of the organization, project, community, individual, or user that created or
@@ -935,7 +935,7 @@ namespace CveConverter.Models
         /// the referenced resource.
         /// </summary>
         [JsonProperty("url")]
-        public Uri Url { get; set; }
+        public String Url { get; set; }
     }
 
     /// <summary>
