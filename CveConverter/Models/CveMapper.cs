@@ -27,11 +27,13 @@ public class CveMapper
             cve.AffectedVendor = jsCve.Containers.Cna.Affected.Select(a => a.Vendor).FirstOrDefault();
             if (jsCve.Containers.Cna.Affected.Any(a => a.Versions != null))
             {
-                var affectedVersionsList = new List<string>();
-                
-                affectedVersionsList = jsCve.Containers.Cna.Affected.SelectMany(a => a.Versions).Distinct().Where(v => v.Status == Status.Affected)
-                    .Select(v => v.Version).Distinct().ToList();   
-                cve.AffectedVersions = string.Join("$", affectedVersionsList);
+                if (jsCve.Containers.Cna.Affected.Any(a => a.Versions != null))
+                {
+                    var affectedVersionsList = new List<string>();
+                    affectedVersionsList = jsCve.Containers.Cna.Affected.SelectMany(a => a.Versions).Distinct().Where(v => v.Status == Status.Affected)
+                        .Select(v => v.Version).Distinct().ToList();   
+                    cve.AffectedVersions = string.Join("$", affectedVersionsList);
+                }
             }
         }
         cve.AssignerShortName = jsCve.CveMetadata.AssignerShortName;
